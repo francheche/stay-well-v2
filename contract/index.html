@@ -234,46 +234,37 @@
     </div>
 
     <script>
-        function initPad(id) {
-            const canvas = document.getElementById(id);
+        // --- NO-DATABASE URL PERSISTENCE LOGIC ---
+        const providerCanvas = document.getElementById('providerSig');
+        const clientCanvas = document.getElementById('clientSig');
+        
+        function initPad(canvasId) {
+            const canvas = document.getElementById(canvasId);
             const ctx = canvas.getContext('2d');
             let drawing = false;
-
-            // Load saved signature
-            const saved = localStorage.getItem('sig_' + id);
-            if (saved) {
-                const img = new Image();
-                img.onload = () => ctx.drawImage(img, 0, 0);
-                img.src = saved;
-            }
+            let paths = [];
 
             function start(e) {
                 drawing = true;
-                draw(e);
-            }
-            function end() {
-                if (drawing) {
-                    // Save to local storage
-                    localStorage.setItem('sig_' + id, canvas.toDataURL());
-                }
-                drawing = false;
                 ctx.beginPath();
+                const pos = getPos(e, canvas);
+                ctx.moveTo(pos.x, pos.y);
+                paths.push(['m', Math.round(pos.x), Math.round(pos.y)]);
             }
+
             function draw(e) {
                 if (!drawing) return;
-                ctx.lineWidth = 2;
-                ctx.lineCap = 'round';
-                ctx.strokeStyle = '#0a1128';
-
-                const rect = canvas.getBoundingClientRect();
-                const x = (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left;
-                const y = (e.clientY || (e.touches && e.touches[0].clientY)) - rect.top;
-
-                ctx.lineTo(x, y);
+                const pos = getPos(e, canvas);
+                ctx.lineTo(pos.x, pos.y);
                 ctx.stroke();
-                ctx.beginPath();
-                ctx.moveTo(x, y);
-                if (e.cancelable) e.preventDefault();
+                paths.push(['l', Math.round(pos.x), Math.round(pos.y)]);
+                e.preventDefault();
+            }
+
+            function end() {
+                if (!drawing) return;
+                drawing = false;
+                saveToUrl();
             }
 
             canvas.addEventListener('mousedown', start);
@@ -282,22 +273,80 @@
             canvas.addEventListener('touchstart', start);
             canvas.addEventListener('touchmove', draw);
             canvas.addEventListener('touchend', end);
+
+            return {
+                getPaths: () => paths,
+                setPaths: (p) => { 
+                    paths = p; 
+                    redraw(canvas, paths); 
+                },
+                clear: () => { paths = []; ctx.clearRect(0, 0, canvas.width, canvas.height); }
+            };
+        }
+
+        function getPos(e, canvas) {
+            const rect = canvas.getBoundingClientRect();
+            return {
+                x: (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left,
+                y: (e.clientY || (e.touches && e.touches[0].clientY)) - rect.top
+            };
+        }
+
+        function redraw(canvas, paths) {
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.lineWidth = 2;
+            ctx.lineCap = 'round';
+            ctx.strokeStyle = '#0a1128';
+            ctx.beginPath();
+            paths.forEach(p => {
+                if (p[0] === 'm') ctx.moveTo(p[1], p[2]);
+                if (p[0] === 'l') ctx.lineTo(p[1], p[2]);
+            });
+            ctx.stroke();
+        }
+
+        const pPad = initPad('providerSig');
+        const cPad = initPad('clientSig');
+
+        function saveToUrl() {
+            const data = {
+                p: pPad.getPaths(),
+                c: cPad.getPaths(),
+                name: document.querySelector('input[type="text"]').value,
+                date: document.querySelectorAll('input[type="text"]')[1].value
+            };
+            const encoded = btoa(JSON.stringify(data));
+            const url = new URL(window.location);
+            url.searchParams.set('s', encoded);
+            window.history.replaceState({}, '', url);
+        }
+
+        function loadFromUrl() {
+            const params = new URLSearchParams(window.location.search);
+            const encoded = params.get('s');
+            if (encoded) {
+                try {
+                    const data = JSON.parse(atob(encoded));
+                    if (data.p) pPad.setPaths(data.p);
+                    if (data.c) cPad.setPaths(data.c);
+                    if (data.name) document.querySelector('input[type="text"]').value = data.name;
+                    if (data.date) document.querySelectorAll('input[type="text"]')[1].value = data.date;
+                } catch (e) { console.error("Link error", e); }
+            }
         }
 
         function clearPad(id) {
-            const canvas = document.getElementById(id);
-            const ctx = canvas.getContext('2d');
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            localStorage.removeItem('sig_' + id);
+            if (id === 'providerSig') pPad.clear();
+            else cPad.clear();
+            saveToUrl();
         }
 
         function finalize() {
-            // Hide buttons and dashed lines
             document.querySelectorAll('button').forEach(b => b.style.display = 'none');
             document.querySelectorAll('.sig-pad').forEach(p => p.style.border = 'none');
             document.querySelectorAll('input').forEach(i => i.style.border = 'none');
             window.print();
-            // Show them again after print
             setTimeout(() => {
                 document.querySelectorAll('button').forEach(b => b.style.display = 'inline-block');
                 document.querySelectorAll('.sig-pad').forEach(p => p.style.border = '1px dashed #ddd');
@@ -305,19 +354,9 @@
             }, 1000);
         }
 
-        // Persistence for Text Inputs
-        document.querySelectorAll('input').forEach(input => {
-            const id = input.placeholder || input.previousElementSibling?.innerText;
-            const saved = localStorage.getItem('input_' + id);
-            if (saved) input.value = saved;
+        document.querySelectorAll('input').forEach(i => i.addEventListener('input', saveToUrl));
 
-            input.addEventListener('input', () => {
-                localStorage.setItem('input_' + id, input.value);
-            });
-        });
-
-        initPad('providerSig');
-        initPad('clientSig');
+        loadFromUrl();
     </script>
 </body>
 </html>
