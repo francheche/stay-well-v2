@@ -239,11 +239,23 @@
             const ctx = canvas.getContext('2d');
             let drawing = false;
 
+            // Load saved signature
+            const saved = localStorage.getItem('sig_' + id);
+            if (saved) {
+                const img = new Image();
+                img.onload = () => ctx.drawImage(img, 0, 0);
+                img.src = saved;
+            }
+
             function start(e) {
                 drawing = true;
                 draw(e);
             }
             function end() {
+                if (drawing) {
+                    // Save to local storage
+                    localStorage.setItem('sig_' + id, canvas.toDataURL());
+                }
                 drawing = false;
                 ctx.beginPath();
             }
@@ -254,19 +266,19 @@
                 ctx.strokeStyle = '#0a1128';
 
                 const rect = canvas.getBoundingClientRect();
-                const x = (e.clientX || e.touches[0].clientX) - rect.left;
-                const y = (e.clientY || e.touches[0].clientY) - rect.top;
+                const x = (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left;
+                const y = (e.clientY || (e.touches && e.touches[0].clientY)) - rect.top;
 
                 ctx.lineTo(x, y);
                 ctx.stroke();
                 ctx.beginPath();
                 ctx.moveTo(x, y);
-                e.preventDefault();
+                if (e.cancelable) e.preventDefault();
             }
 
             canvas.addEventListener('mousedown', start);
             canvas.addEventListener('mousemove', draw);
-            canvas.addEventListener('mouseup', end);
+            window.addEventListener('mouseup', end);
             canvas.addEventListener('touchstart', start);
             canvas.addEventListener('touchmove', draw);
             canvas.addEventListener('touchend', end);
@@ -276,19 +288,33 @@
             const canvas = document.getElementById(id);
             const ctx = canvas.getContext('2d');
             ctx.clearRect(0, 0, canvas.width, canvas.height);
+            localStorage.removeItem('sig_' + id);
         }
 
         function finalize() {
             // Hide buttons and dashed lines
             document.querySelectorAll('button').forEach(b => b.style.display = 'none');
             document.querySelectorAll('.sig-pad').forEach(p => p.style.border = 'none');
+            document.querySelectorAll('input').forEach(i => i.style.border = 'none');
             window.print();
             // Show them again after print
             setTimeout(() => {
                 document.querySelectorAll('button').forEach(b => b.style.display = 'inline-block');
                 document.querySelectorAll('.sig-pad').forEach(p => p.style.border = '1px dashed #ddd');
+                document.querySelectorAll('input').forEach(i => i.style.borderBottom = '1px solid #ddd');
             }, 1000);
         }
+
+        // Persistence for Text Inputs
+        document.querySelectorAll('input').forEach(input => {
+            const id = input.placeholder || input.previousElementSibling?.innerText;
+            const saved = localStorage.getItem('input_' + id);
+            if (saved) input.value = saved;
+
+            input.addEventListener('input', () => {
+                localStorage.setItem('input_' + id, input.value);
+            });
+        });
 
         initPad('providerSig');
         initPad('clientSig');
