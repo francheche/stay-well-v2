@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stay Well | Premium Pitch Presentation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-navy: #0a1128;
+            --color-gold: #b8860b;
+            --color-stone: #f4f1ea;
+            --color-white: #ffffff;
+            --font-heading: 'Cormorant Garamond', serif;
+            --font-body: 'Inter', sans-serif;
+            --transition: cubic-bezier(0.7, 0, 0.3, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--color-navy);
+            color: var(--color-white);
+            font-family: var(--font-body);
+            overflow: hidden; /* Prevent scrolling, use slides */
+        }
+
+        .presentation {
+            height: 100vh;
+            width: 100vw;
+            position: relative;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 4rem;
+            text-align: center;
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.8s var(--transition);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .slide.active {
+            opacity: 1;
+            transform: translateX(0);
+            pointer-events: auto;
+            z-index: 2;
+        }
+
+        .container {
+            max-width: 1100px;
+            width: 100%;
+        }
+
+        /* Typography */
+        .tag {
+            text-transform: uppercase;
+            letter-spacing: 0.4em;
+            color: var(--color-gold);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            display: block;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: 0.6s 0.2s var(--transition);
+        }
+
+        h1 {
+            font-family: var(--font-heading);
+            font-size: clamp(3rem, 10vw, 5.5rem);
+            line-height: 1.1;
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: 0.6s 0.4s var(--transition);
+        }
+
+        h2 {
+            font-family: var(--font-heading);
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            color: var(--color-gold);
+            margin-bottom: 2rem;
+        }
+
+        p {
+            font-size: 1.3rem;
+            line-height: 1.6;
+            color: rgba(255,255,255,0.7);
+            max-width: 800px;
+            margin: 0 auto 2.5rem;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: 0.6s 0.6s var(--transition);
+        }
+
+        .slide.active .tag, 
+        .slide.active h1, 
+        .slide.active p {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Elements */
+        .interactive-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+            opacity: 0;
+            transform: scale(0.95);
+            transition: 0.8s 0.8s var(--transition);
+        }
+
+        .slide.active .interactive-grid {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(184, 134, 11, 0.2);
+            padding: 3rem 2rem;
+            text-align: left;
+            transition: 0.4s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            background: rgba(184, 134, 11, 0.08);
+            border-color: var(--color-gold);
+            transform: translateY(-10px);
+        }
+
+        .card h4 {
+            color: var(--color-gold);
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .card p {
+            font-size: 1rem;
+            margin: 0;
+            text-align: left;
+            opacity: 0.8;
+        }
+
+        /* Controls */
+        .controls {
+            position: fixed;
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 2rem;
+            z-index: 1000;
+            align-items: center;
+        }
+
+        .control-btn {
+            background: none;
+            border: 1px solid rgba(184, 134, 11, 0.3);
+            color: var(--color-gold);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s;
+            font-size: 1.2rem;
+        }
+
+        .control-btn:hover {
+            background: var(--color-gold);
+            color: white;
+            border-color: var(--color-gold);
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: var(--color-gold);
+            width: 0%;
+            transition: width 0.5s var(--transition);
+            z-index: 1001;
+        }
+
+        .slide-counter {
+            font-size: 0.8rem;
+            letter-spacing: 0.2em;
+            color: rgba(184, 134, 11, 0.6);
+        }
+
+        /* Specific Slide Styling */
+        .comparison {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            margin-top: 3rem;
+        }
+
+        .comp-item {
+            flex: 1;
+            padding: 2rem;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .comp-item.prospect {
+            border-color: var(--color-gold);
+            background: rgba(184, 134, 11, 0.05);
+        }
+
+        .btn-live {
+            display: inline-block;
+            padding: 1.2rem 4rem;
+            background: var(--color-gold);
+            color: white;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            font-weight: 700;
+            margin-top: 2rem;
+            transition: 0.4s;
+            border: 1px solid var(--color-gold);
+        }
+
+        .btn-live:hover {
+            background: transparent;
+            color: var(--color-gold);
+        }
+
+        @media (max-width: 768px) {
+            .slide { padding: 2rem; }
+            .interactive-grid { grid-template-columns: 1fr; }
+            .comparison { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="progress-bar" id="progressBar"></div>
+
+    <div class="presentation" id="presentation">
+        
+        <!-- Slide 1: Introduction -->
+        <div class="slide active">
+            <div class="container">
+                <span class="tag">Stay Well V2</span>
+                <h1>The Future of <br> <span style="font-style: italic; color: var(--color-gold);">Digital Wellness.</span></h1>
+                <p>Securing your market dominance in the age of AI Search & Premium Luxury.</p>
+            </div>
+        </div>
+
+        <!-- Slide 2: The Problem -->
+        <div class="slide">
+            <div class="container">
+                <span class="tag">The Challenge</span>
+                <h2>The "Invisible" Crisis</h2>
+                <p>90% of local spa websites are becoming invisible to Google's new AI Snapshots. Are you one of them?</p>
+                <div class="interactive-grid">
+                    <div class="card">
+                        <h4>AI Disruption</h4>
+                        <p>Google SGE answers questions directly. If you aren't the answer, you don't exist.</p>
+                    </div>
+                    <div class="card">
+                        <h4>Premium Gap</h4>
+                        <p>Low-end websites attract low-end clients. You are losing high-value travelers.</p>
+                    </div>
+                    <div class="card">
+                        <h4>Conversion Leak</h4>
+                        <p>Hard-to-use booking forms lose 60% of potential leads before they hit 'Send'.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Visual Authority -->
+        <div class="slide">
+            <div class="container">
+                <span class="tag">The Identity</span>
+                <h2>Quiet Luxury.</h2>
+                <p>We've designed a visual sanctuary that justifies elite pricing and commands respect.</p>
+                <div class="comparison">
+                    <div class="comp-item">
+                        <span class="tag" style="font-size: 0.6rem;">Competition</span>
+                        <h4 style="font-family: var(--font-heading); font-size: 1.5rem; margin-bottom: 1rem;">Generic & Cluttered</h4>
+                        <p style="font-size: 0.9rem;">Fails to build trust with professional guests.</p>
+                    </div>
+                    <div class="comp-item prospect">
+                        <span class="tag" style="font-size: 0.6rem;">Stay Well V2</span>
+                        <h4 style="font-family: var(--font-heading); font-size: 1.5rem; margin-bottom: 1rem;">Elite & Restorative</h4>
+                        <p style="font-size: 0.9rem;">Positions you as the #1 expert in Angeles & Clark.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Strategic SEO -->
+        <div class="slide">
+            <div class="container">
+                <span class="tag">The Strategy</span>
+                <h2>Data-Driven Dominance</h2>
+                <p>We don't just target keywords; we target **Guest Intent** and **AI Algorithms**.</p>
+                <div class="interactive-grid">
+                    <div class="card">
+                        <h4>SGE Ready</h4>
+                        <p>Structured data blocks designed to "feed" AI search snapshots.</p>
+                    </div>
+                    <div class="card">
+                        <h4>Local Pack</h4>
+                        <p>Anchor-points for Clark, Balibago, and Walking Street travelers.</p>
+                    </div>
+                    <div class="card">
+                        <h4>E-E-A-T</h4>
+                        <p>Proven trust signals that make Google recommend you over others.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: The Funnel -->
+        <div class="slide">
+            <div class="container">
+                <span class="tag">The Engine</span>
+                <h2>Lead Machine</h2>
+                <p>A frictionless mobile booking funnel that connects you to clients in seconds.</p>
+                <div style="margin-top: 2rem; display: flex; justify-content: center; gap: 4rem;">
+                    <div style="text-align: center;">
+                        <span style="font-size: 3rem; color: var(--color-gold); font-family: var(--font-heading);">30s</span>
+                        <br><span class="tag" style="font-size: 0.6rem;">Booking Time</span>
+                    </div>
+                    <div style="text-align: center;">
+                        <span style="font-size: 3rem; color: var(--color-gold); font-family: var(--font-heading);">100%</span>
+                        <br><span class="tag" style="font-size: 0.6rem;">Direct to WhatsApp</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: The Closer -->
+        <div class="slide">
+            <div class="container">
+                <span class="tag">Next Steps</span>
+                <h1>Ready to <br> <span style="font-style: italic; color: var(--color-gold);">Lead the Market?</span></h1>
+                <p>The sanctuary is built. The strategy is set. Now, it's time to launch.</p>
+                <a href="index.html" class="btn-live">Experience Live Sanctuary</a>
+            </div>
+        </div>
+
+        <!-- Slide 7: The Payment -->
+        <div class="slide">
+            <div class="container">
+                <span class="tag">The Investment</span>
+                <h2>Start Your Sanctuary.</h2>
+                <p>Join the elite tier of wellness providers for less than the cost of a daily coffee.</p>
+                
+                <div style="background: rgba(184, 134, 11, 0.1); border: 1px solid var(--color-gold); padding: 3rem; margin-top: 2rem; border-radius: 4px; position: relative;">
+                    <div style="position: absolute; top: -15px; right: -15px; background: #b8860b; color: white; padding: 10px 20px; font-size: 0.7rem; font-weight: 700; border-radius: 50px; transform: rotate(10deg); box-shadow: 0 10px 20px rgba(0,0,0,0.2); z-index: 10;">FAST ACTION BONUS</div>
+                    
+                    <span class="tag" style="font-size: 0.7rem;">Digital Sanctuary Membership</span>
+                    <h3 style="font-size: 3.5rem; font-family: var(--font-heading); margin-bottom: 0.5rem;">₱1,500 <span style="font-size: 1rem; opacity: 0.5;">/ MONTH</span></h3>
+                    <p style="font-size: 0.9rem; color: var(--color-gold); margin-bottom: 1.5rem;">Total Care. Total Growth. Zero Maintenance.</p>
+                    
+                    <ul style="list-style: none; font-size: 0.9rem; opacity: 0.8; margin-bottom: 2rem; text-align: left; display: inline-block;">
+                        <li>✓ SGE-Optimized Digital Sanctuary</li>
+                        <li>✓ Managed Hosting & Security</li>
+                        <li>✓ WhatsApp Booking Engine</li>
+                        <li><strong style="color: var(--color-gold);">+ Full Branded Asset Kit (Logo & Fonts)</strong></li>
+                    </ul>
+                    <br>
+                    <a href="javascript:void(0)" onclick="nextSlide()" class="btn-live" style="background: white; color: var(--color-navy); border-color: white;">Claim Fast Action Bonus</a>
+                </div>
+                <p style="font-size: 0.8rem; margin-top: 2rem; opacity: 0.5;">*Fast Action Bonus (Logo/Branding) expires when this presentation ends.</p>
+            </div>
+        </div>
+
+        <!-- Slide 8: The Brand Reveal -->
+        <div class="slide">
+            <div class="container">
+                <span class="tag">Fast Action Bonus</span>
+                <h2>Your Complete Brand Identity.</h2>
+                <p>Included for FREE when you activate your sanctuary today.</p>
+                
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 2rem;">
+                    <div style="background: white; padding: 10px; border-radius: 4px;">
+                        <img src="horizontal-logo.png" style="width: 100%; height: auto;" alt="Primary Logo">
+                        <span class="tag" style="font-size: 0.5rem; color: #333; margin-top: 10px;">Primary Logo</span>
+                    </div>
+                    <div style="background: white; padding: 10px; border-radius: 4px;">
+                        <img src="stay_well_final_social_branding_1777078381258.png" style="width: 100%; height: auto;" alt="Social Media Kit">
+                        <span class="tag" style="font-size: 0.5rem; color: #333; margin-top: 10px;">Social Media Kit</span>
+                    </div>
+                    <div style="background: white; padding: 10px; border-radius: 4px;">
+                        <img src="stay_well_final_business_card_1777078409009.png" style="width: 100%; height: auto;" alt="Premium Business Cards">
+                        <span class="tag" style="font-size: 0.5rem; color: #333; margin-top: 10px;">Business Card Mockups</span>
+                    </div>
+                </div>
+                
+                <a href="#" class="btn-live" style="margin-top: 3rem;">Activate & Secure Brand Kit</a>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Controls -->
+    <div class="controls">
+        <button class="control-btn" id="prevBtn">←</button>
+        <div class="slide-counter" id="slideCounter">1 / 8</div>
+        <button class="control-btn" id="nextBtn">→</button>
+    </div>
+
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const counter = document.getElementById('slideCounter');
+        const progressBar = document.getElementById('progressBar');
+        
+        let currentSlide = 0;
+
+        function nextSlide() {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                updateSlides();
+            }
+        }
+
+        function updateSlides() {
+            slides.forEach((slide, index) => {
+                slide.classList.toggle('active', index === currentSlide);
+            });
+            
+            counter.innerText = `${currentSlide + 1} / ${slides.length}`;
+            progressBar.style.width = `${((currentSlide + 1) / slides.length) * 100}%`;
+        }
+
+        nextBtn.addEventListener('click', nextSlide);
+
+        prevBtn.addEventListener('click', () => {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlides();
+            }
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                if (currentSlide < slides.length - 1) {
+                    currentSlide++;
+                    updateSlides();
+                }
+            } else if (e.key === 'ArrowLeft') {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    updateSlides();
+                }
+            }
+        });
+
+        // Initial update
+        updateSlides();
+    </script>
+</body>
+</html>
