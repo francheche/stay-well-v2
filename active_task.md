@@ -9,10 +9,13 @@ The website is fully optimized and the contract system is functional. The next m
 *   [x] **SEO Fixes**: Resolved duplicate schema properties and achieved 100/100 Google Rich Results health.
 *   [x] **Performance**: Optimized LCP (Hero preload) and CLS (Image dimensions).
 *   [x] **Contract Persistence**: Built "No-Database" URL storage for digital signatures.
+*   [x] **Privacy Shield**: Moved private assets (contract, notes, pitch) to a dedicated `stay-well-private-assets` folder outside the web directory.
+
 
 ## 📅 Upcoming Tasks (Domain Launch)
 *   [ ] **Buy Domain**: Purchase `.ph` or `.com` domain.
-*   [ ] **Connect Netlify**: Point DNS to Netlify and enable SSL.
+*   [ ] **Connect Hostinger**: Point GitHub repository to Hostinger Git deployment and enable SSL.
+
 *   [ ] **Search Console**: Verify domain and submit sitemap.
 *   [ ] **Maps Update**: Link new domain to Google Business Profile.
 
