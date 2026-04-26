@@ -10,14 +10,14 @@ The website is fully optimized and the contract system is functional. The next m
 *   [x] **Performance**: Optimized LCP (Hero preload) and CLS (Image dimensions).
 *   [x] **Contract Persistence**: Built "No-Database" URL storage for digital signatures.
 *   [x] **Privacy Shield**: Moved private assets (contract, notes, pitch) to a dedicated `stay-well-private-assets` folder outside the web directory.
+*   [x] **Buy Domain**: Purchased and connected `staywellmassage.com`.
+*   [x] **Connect Hostinger**: Pointed GitHub repository to Hostinger Git deployment and enabled SSL.
 
 
 ## 📅 Upcoming Tasks (Domain Launch)
-*   [ ] **Buy Domain**: Purchase `.ph` or `.com` domain.
-*   [ ] **Connect Hostinger**: Point GitHub repository to Hostinger Git deployment and enable SSL.
-
 *   [ ] **Search Console**: Verify domain and submit sitemap.
 *   [ ] **Maps Update**: Link new domain to Google Business Profile.
+
 
 ## 💡 Ideas for Future
 *   **Booking Notification**: Integrate with a simple WhatsApp API for instant lead alerts.
