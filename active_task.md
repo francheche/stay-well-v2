@@ -10,7 +10,7 @@ The website is fully optimized and the contract system is functional. The next m
 *   [x] **Performance**: Optimized LCP (Hero preload) and CLS (Image dimensions).
 *   [x] **Contract Persistence**: Built "No-Database" URL storage for digital signatures.
 *   [x] **Privacy Shield**: Moved private assets (contract, notes, pitch) to a dedicated `stay-well-private-assets` folder outside the web directory.
-*   [x] **Buy Domain**: Purchased and connected `staywellmassage.com`.
+*   [x] **Buy Domain**: Purchased and connected `staywellmassageph.com`.
 *   [x] **Connect Hostinger**: Pointed GitHub repository to Hostinger Git deployment and enabled SSL.
 
 

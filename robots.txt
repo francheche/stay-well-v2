@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://staywellmassage.com/sitemap.xml
+Sitemap: https://staywellmassageph.com/sitemap.xml
