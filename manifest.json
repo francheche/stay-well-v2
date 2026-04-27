@@ -1,0 +1,21 @@
+{
+  "name": "Stay Well Massage Home & Hotel",
+  "short_name": "Stay Well",
+  "description": "Premium 24/7 Home & Hotel Massage Service in Angeles City & Clark.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a1128",
+  "theme_color": "#b8860b",
+  "icons": [
+    {
+      "src": "horizontal-logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "official-logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
