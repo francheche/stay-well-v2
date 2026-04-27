@@ -3,7 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    
+    <!-- Security Headers (Server-side is preferred, these are fallbacks) -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://schema.org; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://staywellmassageph.com; connect-src 'self';">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+
     <title>Stay Well Massage | Premium Home & Hotel Massage in Angeles City</title>
+    
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="horizontal-logo.png">
     
@@ -20,14 +28,38 @@
     <meta property="og:url" content="https://staywellmassageph.com">
     <meta property="og:image" content="https://staywellmassageph.com/horizontal-logo.png">
 
-    <!-- Fonts -->
+    <!-- Fonts Performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap"></noscript>
     
-    <link rel="stylesheet" href="style.css">
-    <link rel="preload" as="image" href="stay_well_navy_gold_hero_1777074342140.png">
+    <link rel="stylesheet" href="style.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="style.css"></noscript>
+    
+    <style>
+        /* Critical CSS for LCP and Layout */
+        :root {
+            --color-navy: #0a1128;
+            --color-gold: #b8860b;
+            --color-charcoal: #1a1a1a;
+            --color-white: #ffffff;
+            --font-heading: 'Cormorant Garamond', serif;
+            --font-body: 'Inter', sans-serif;
+        }
+        body { margin: 0; font-family: var(--font-body); background-color: #f4f1ea; }
+        .navbar { position: fixed; top: 0; width: 100%; padding: 1.2rem 0; z-index: 1000; background-color: rgba(26, 26, 26, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(184, 134, 11, 0.2); }
+        .hero-sanctuary { height: 100vh; display: flex; align-items: center; position: relative; background-color: var(--color-charcoal); color: var(--color-white); overflow: hidden; }
+        .hero-background { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; }
+        .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(90deg, rgba(10,17,40,1) 0%, rgba(10,17,40,1) 35%, rgba(10,17,40,0.7) 50%, transparent 100%); z-index: 1; }
+        .hero-content { position: relative; z-index: 2; margin-left: 8vw; }
+        .hero-content h1 { font-size: clamp(3rem, 8vw, 5rem); font-family: var(--font-heading); margin: 0; line-height: 1.1; }
+        .lazy-bg { opacity: 0; transition: opacity 1s ease-in; }
+        .lazy-bg.loaded { opacity: 1; }
+    </style>
+
+    <link rel="preload" as="image" href="stay_well_navy_gold_hero_1777074342140.webp">
 
     <!-- Advanced JSON-LD Schema (SGE Optimization) -->
     <script type="application/ld+json">
@@ -38,7 +70,7 @@
       "image": "https://staywellmassageph.com/horizontal-logo.png",
       "@id": "https://staywellmassageph.com",
       "url": "https://staywellmassageph.com",
-      "telephone": "+639469983624",
+      "telephone": "0946 998 3624",
       "priceRange": "₱₱",
       "aggregateRating": {
         "@type": "AggregateRating",
@@ -64,7 +96,7 @@
       ],
       "address": {
         "@type": "PostalAddress",
-        "streetAddress": "Balibago",
+        "streetAddress": "St. Maria Village, Teodoro St. cor Tiñio St, 1st St, Balibago",
         "addressLocality": "Angeles City",
         "addressRegion": "Pampanga",
         "postalCode": "2009",
@@ -185,7 +217,7 @@
     <main>
         <!-- Hero: The Sensory Start -->
         <section class="hero-sanctuary" id="journey">
-            <div class="hero-background" style="background-image: url('stay_well_navy_gold_hero_1777074342140.png');">
+            <div class="hero-background" style="background-image: url('stay_well_navy_gold_hero_1777074342140.webp');">
                 <div class="hero-overlay"></div>
             </div>
             <div class="container">
@@ -253,7 +285,7 @@
                             <!-- Tier 1: Essential -->
                             <div class="treatment-card tier-essential fade-up">
                                 <div class="option-icon" style="margin: 0 auto 1.5rem; color: var(--color-gold);">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="width: 40px; height: 40px;"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8a8 8 0 0 1-8 8Z"/><path d="M13 21c-3 0-7-3.9-8-6"/><path d="M5 14c0 3 3 7 8 7"/></svg>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="width: 40px; height: 40px;" role="img" aria-label="Essential Wellness Icon"><title>Essential Wellness</title><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8a8 8 0 0 1-8 8Z"/><path d="M13 21c-3 0-7-3.9-8-6"/><path d="M5 14c0 3 3 7 8 7"/></svg>
                                 </div>
                                 <span class="price">From ₱700 / 60 Mins</span>
                                 <h3>Essential Wellness</h3>
@@ -264,7 +296,7 @@
                             <div class="treatment-card tier-signature highlight-card fade-up">
                                 <div class="best-value-badge">Best Seller</div>
                                 <div class="option-icon" style="margin: 0 auto 1.5rem; color: var(--color-gold);">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="width: 40px; height: 40px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="width: 40px; height: 40px;" role="img" aria-label="Signature Recovery Icon"><title>Signature Recovery</title><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
                                 </div>
                                 <span class="price">From ₱900 / 90 Mins</span>
                                 <h3>Signature Recovery</h3>
@@ -274,7 +306,7 @@
                             <!-- Tier 3: Elite -->
                             <div class="treatment-card tier-elite fade-up">
                                 <div class="option-icon" style="margin: 0 auto 1.5rem; color: var(--color-gold);">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="width: 40px; height: 40px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="width: 40px; height: 40px;" role="img" aria-label="Elite Sanctuary Icon"><title>Elite Sanctuary</title><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
                                 </div>
                                 <span class="price">From ₱1,600 / 120 Mins</span>
                                 <h3>Elite Sanctuary</h3>
@@ -515,17 +547,20 @@
                     <h2>The Science of Rest</h2>
                 </div>
                 <div class="services-grid mt-lg">
-                    <div class="wisdom-card fade-up" style="background: var(--color-white); padding: var(--space-md); border: 1px solid rgba(26,26,26,0.05);">
-                        <h4 style="color: var(--color-gold); margin-bottom: 1rem;">Swedish vs. Thai</h4>
-                        <p style="font-size: 0.9rem; color: var(--color-text-muted);">Swedish massage uses long, fluid strokes to increase oxygen flow in the blood, while Thai massage focuses on energy lines and assisted stretching. Both are essential for long-haul travelers.</p>
+                    <div class="wisdom-card fade-up" style="background: var(--color-white); padding: var(--space-md); border: 1px solid rgba(26,26,26,0.05); transition: var(--transition-med);">
+                        <h4 style="color: var(--color-gold); margin-bottom: 1rem; font-size: 1.4rem;">The Traveler's Reset: Beating Jet Lag in Angeles City</h4>
+                        <p style="font-size: 0.95rem; color: var(--color-text-muted); line-height: 1.7;">A 12-hour flight to Clark often leaves the body in a state of 'physiological shock.' Deep tissue work combined with hydration reset the lymphatic system, flushing out the toxins accumulated during long-haul travel. Our signature 90-minute session is specifically designed to realign your circadian rhythm and eliminate 'tech neck' from cramped seating.</p>
+                        <a href="#booking" style="font-size: 0.7rem; color: var(--color-gold); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600; margin-top: 1rem; display: inline-block;">Read More & Book →</a>
                     </div>
-                    <div class="wisdom-card fade-up" style="background: var(--color-white); padding: var(--space-md); border: 1px solid rgba(26,26,26,0.05);">
-                        <h4 style="color: var(--color-gold); margin-bottom: 1rem;">The Power of Ventosa</h4>
-                        <p style="font-size: 0.9rem; color: var(--color-text-muted);">Traditional cupping (Ventosa) creates suction to pull toxins from deep muscle tissue, providing instant relief for chronic back tension and "tech neck."</p>
+                    <div class="wisdom-card fade-up" style="background: var(--color-white); padding: var(--space-md); border: 1px solid rgba(26,26,26,0.05); transition: var(--transition-med);">
+                        <h4 style="color: var(--color-gold); margin-bottom: 1rem; font-size: 1.4rem;">The DOH Standard: Why Professionalism is Our Only Policy</h4>
+                        <p style="font-size: 0.95rem; color: var(--color-text-muted); line-height: 1.7;">In the mobile massage industry, trust is the ultimate currency. Every Stay Well therapist is DOH-licensed, meaning they have passed rigorous national health and skill examinations. This certification ensures that your therapeutic session is safe, professional, and strictly dedicated to wellness—with a 100% zero-tolerance policy for inappropriate behavior.</p>
+                        <a href="#booking" style="font-size: 0.7rem; color: var(--color-gold); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600; margin-top: 1rem; display: inline-block;">View Certifications →</a>
                     </div>
-                    <div class="wisdom-card fade-up" style="background: var(--color-white); padding: var(--space-md); border: 1px solid rgba(26,26,26,0.05);">
-                        <h4 style="color: var(--color-gold); margin-bottom: 1rem;">Traveler's Recovery</h4>
-                        <p style="font-size: 0.9rem; color: var(--color-text-muted);">Jet lag disrupts the body's natural rhythm. A 90-minute signature session resets the nervous system, allowing you to enjoy Angeles City with full vitality.</p>
+                    <div class="wisdom-card fade-up" style="background: var(--color-white); padding: var(--space-md); border: 1px solid rgba(26,26,26,0.05); transition: var(--transition-med);">
+                        <h4 style="color: var(--color-gold); margin-bottom: 1rem; font-size: 1.4rem;">Synergy of Healing: Ventosa + Deep Tissue Recovery</h4>
+                        <p style="font-size: 0.95rem; color: var(--color-text-muted); line-height: 1.7;">While Deep Tissue massage works by applying pressure to the muscle layers, traditional Ventosa (cupping) uses suction to pull tension away from the body. This dual-action approach increases localized blood flow to stagnant areas, making it the most effective treatment for chronic back pain and muscle knots caused by intense physical activity or stress.</p>
+                        <a href="#booking" style="font-size: 0.7rem; color: var(--color-gold); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600; margin-top: 1rem; display: inline-block;">Explore the Combo →</a>
                     </div>
                 </div>
             </div>

@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (heroBg) {
         heroBg.classList.add('lazy-bg');
         const img = new Image();
-        img.src = 'hero.jpg';
+        img.src = 'stay_well_navy_gold_hero_1777074342140.webp';
         img.onload = () => {
             heroBg.classList.add('loaded');
         };
