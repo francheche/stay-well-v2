@@ -1,5 +1,23 @@
 // STAY WELL V2 - CORE INTERACTION ENGINE
 
+// Global Privacy-Conscious Event Tracker
+function trackEvent(name, data = {}) {
+    console.log(`[Event] ${name}`, data);
+    if (window.beacon) {
+        window.beacon(name, data);
+    }
+}
+
+// Global Error Listener
+window.onerror = function(message, source, lineno, colno, error) {
+    trackEvent('js_error', {
+        msg: message,
+        line: lineno,
+        url: source
+    });
+    return false;
+};
+
 document.addEventListener('DOMContentLoaded', () => {
     
     // 1. Intersection Observer for Fade-Up Animations
@@ -12,8 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
-                // Optional: stop observing once visible
-                // observer.unobserve(entry.target);
             }
         });
     }, observerOptions);
@@ -36,9 +52,11 @@ document.addEventListener('DOMContentLoaded', () => {
             navbar.classList.remove('scrolled');
         }
 
-        // Hero Parallax
-        if (heroBg) {
+        // Hero Parallax (Disabled on mobile for performance)
+        if (heroBg && window.innerWidth > 768) {
             heroBg.style.transform = `translateY(${scrollY * 0.4}px)`;
+        } else if (heroBg) {
+            heroBg.style.transform = 'none';
         }
 
         // Sticky Bar Visibility (Show after 80vh)
@@ -49,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 stickyBar.classList.remove('visible');
             }
         }
-    });
+    }, { passive: true });
 
     // 3. Hero Background Load Effect
     if (heroBg) {
@@ -61,41 +79,68 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     }
 
-    // 3. Mobile Navigation Toggle (Placeholder logic)
+    // 4. Mobile Navigation Toggle & Accessibility
     const navToggle = document.getElementById('navToggle');
     const navLinks = document.getElementById('navLinks');
+    const navLinksItems = navLinks.querySelectorAll('a');
 
-    if (navToggle) {
-        navToggle.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-            navToggle.classList.toggle('open');
-        });
+    function toggleMenu() {
+        const isOpen = navLinks.classList.contains('active');
+        navLinks.classList.toggle('active');
+        navToggle.classList.toggle('open');
+        navToggle.setAttribute('aria-expanded', !isOpen);
+        document.body.style.overflow = isOpen ? '' : 'hidden';
     }
 
-    // 4. Smooth Scrolling for Anchor Links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    if (navToggle) {
+        navToggle.addEventListener('click', toggleMenu);
+    }
+
+    // Close menu on link click
+    navLinksItems.forEach(link => {
+        link.addEventListener('click', () => {
+            if (navLinks.classList.contains('active')) {
+                toggleMenu();
+            }
+        });
+    });
+
+    // Close menu on Escape
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && navLinks.classList.contains('active')) {
+            toggleMenu();
+        }
+    });
+
+    // 5. Smooth Scrolling for Anchor Links (Internal Only)
+    document.querySelectorAll('a[href^="#"]:not([href="#"])').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
+            const targetId = this.getAttribute('href');
+            
             e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
+            const target = document.querySelector(targetId);
             if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
+                const navHeight = navbar.offsetHeight;
+                const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - navHeight;
+                
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
                 });
             }
         });
     });
     
-    // 5. Linear Booking Funnel Logic
+    // 6. Linear Booking Funnel Logic
     let currentStep = 1;
     const totalSteps = 5;
     const bookingData = {
-        tier: 'Not selected',
-        focus: 'Not selected',
-        date: 'TBD',
-        time: 'TBD',
-        name: 'Guest',
-        address: 'TBD'
+        tier: null,
+        focus: null,
+        date: '',
+        time: '',
+        name: '',
+        address: ''
     };
 
     const steps = document.querySelectorAll('.step-content');
@@ -104,11 +149,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const prevBtn = document.getElementById('prevStep');
 
     function updateStep() {
-        steps.forEach(s => s.classList.remove('active'));
+        steps.forEach(s => {
+            s.classList.remove('active');
+            s.classList.remove('error');
+        });
         indicators.forEach(i => i.classList.remove('active'));
         
-        document.querySelector(`.step-content[data-step="${currentStep}"]`).classList.add('active');
-        document.querySelector(`.step-indicator[data-step="${currentStep}"]`).classList.add('active');
+        const activeStep = document.querySelector(`.step-content[data-step="${currentStep}"]`);
+        const activeIndicator = document.querySelector(`.step-indicator[data-step="${currentStep}"]`);
+        
+        activeStep.classList.add('active');
+        activeIndicator.classList.add('active');
         
         prevBtn.style.visibility = currentStep === 1 ? 'hidden' : 'visible';
         
@@ -120,35 +171,118 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             nextBtn.innerText = 'Continue';
         }
+
+        // Scroll to top of booking section
+        document.getElementById('booking').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function validateStep(step) {
+        const currentStepEl = document.querySelector(`.step-content[data-step="${step}"]`);
+        currentStepEl.classList.remove('error');
+        
+        if (step === 1) {
+            if (!bookingData.tier) {
+                currentStepEl.classList.add('error');
+                return false;
+            }
+        } else if (step === 2) {
+            if (!bookingData.focus) {
+                currentStepEl.classList.add('error');
+                return false;
+            }
+        } else if (step === 3) {
+            const dateInput = document.getElementById('bookingDate');
+            const timeInput = document.getElementById('bookingTime');
+            let valid = true;
+            
+            if (!dateInput.value) {
+                dateInput.parentElement.classList.add('error');
+                valid = false;
+            } else {
+                dateInput.parentElement.classList.remove('error');
+            }
+            
+            if (!timeInput.value) {
+                timeInput.parentElement.classList.add('error');
+                valid = false;
+            } else {
+                timeInput.parentElement.classList.remove('error');
+            }
+            return valid;
+        } else if (step === 4) {
+            const nameInput = document.getElementById('userName');
+            const addrInput = document.getElementById('userAddress');
+            let valid = true;
+            
+            if (!nameInput.value.trim()) {
+                nameInput.parentElement.classList.add('error');
+                valid = false;
+            } else {
+                nameInput.parentElement.classList.remove('error');
+            }
+            
+            if (!addrInput.value.trim()) {
+                addrInput.parentElement.classList.add('error');
+                valid = false;
+            } else {
+                addrInput.parentElement.classList.remove('error');
+            }
+            return valid;
+        }
+        return true;
     }
 
     function renderSummary() {
         const summaryEl = document.getElementById('bookingSummary');
         if (!summaryEl) return;
 
-        // Final pull of input fields
-        bookingData.date = document.getElementById('bookingDate').value || 'TBD';
-        bookingData.time = document.getElementById('bookingTime').value || 'TBD';
-        bookingData.name = document.getElementById('userName').value || 'Guest';
-        bookingData.address = document.getElementById('userAddress').value || 'TBD';
+        // Securely populate data
+        bookingData.date = document.getElementById('bookingDate').value;
+        bookingData.time = document.getElementById('bookingTime').value;
+        bookingData.name = document.getElementById('userName').value.trim();
+        bookingData.address = document.getElementById('userAddress').value.trim();
 
-        summaryEl.innerHTML = `
-            <div style="display: flex; flex-direction: column; gap: 12px; color: #1a1a1a; text-align: left; font-family: var(--font-heading);">
-                <p style="margin:0; border-bottom: 1px solid rgba(184, 134, 11, 0.1); padding-bottom: 8px;"><strong style="color: #b8860b; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 0.1em;">Sanctuary:</strong> ${bookingData.tier}</p>
-                <p style="margin:0; border-bottom: 1px solid rgba(184, 134, 11, 0.1); padding-bottom: 8px;"><strong style="color: #b8860b; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 0.1em;">Focus:</strong> ${bookingData.focus}</p>
-                <p style="margin:0; border-bottom: 1px solid rgba(184, 134, 11, 0.1); padding-bottom: 8px;"><strong style="color: #b8860b; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 0.1em;">Arrival:</strong> ${bookingData.date} at ${bookingData.time}</p>
-                <p style="margin:0; border-bottom: 1px solid rgba(184, 134, 11, 0.1); padding-bottom: 8px;"><strong style="color: #b8860b; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 0.1em;">Location:</strong> ${bookingData.address}</p>
-                <p style="margin:0;"><strong style="color: #b8860b; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 0.1em;">Guest:</strong> ${bookingData.name}</p>
-            </div>
-        `;
+        // Clear existing content
+        summaryEl.innerHTML = '';
+        
+        const container = document.createElement('div');
+        container.className = 'summary-container';
+
+        const items = [
+            { label: 'Sanctuary', value: bookingData.tier },
+            { label: 'Focus', value: bookingData.focus },
+            { label: 'Arrival', value: `${bookingData.date} at ${bookingData.time}` },
+            { label: 'Location', value: bookingData.address },
+            { label: 'Guest', value: bookingData.name }
+        ];
+
+        items.forEach(item => {
+            const p = document.createElement('p');
+            p.className = 'summary-item';
+            
+            const strong = document.createElement('strong');
+            strong.className = 'summary-label';
+            strong.textContent = `${item.label}: `;
+            
+            const span = document.createElement('span');
+            span.textContent = item.value;
+            
+            p.appendChild(strong);
+            p.appendChild(span);
+            container.appendChild(p);
+        });
+
+        summaryEl.appendChild(container);
     }
 
     nextBtn.addEventListener('click', () => {
-        if (currentStep < totalSteps) {
-            currentStep++;
-            updateStep();
-        } else {
-            handleBookingSubmit();
+        if (validateStep(currentStep)) {
+            if (currentStep < totalSteps) {
+                currentStep++;
+                updateStep();
+            } else {
+                handleBookingSubmit();
+            }
         }
     });
 
@@ -159,40 +293,61 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Option selection
+    // Option selection & Accessibility
     document.querySelectorAll('.option-card').forEach(card => {
-        card.addEventListener('click', function() {
-            const step = this.closest('.step-content').dataset.step;
-            const value = this.getAttribute('data-value');
+        const selectOption = () => {
+            const step = card.closest('.step-content').dataset.step;
+            const value = card.getAttribute('data-value');
 
             // Update Global State
             if (step === "1") bookingData.tier = value;
             if (step === "2") bookingData.focus = value;
 
             // UI feedback
-            this.parentElement.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
-            this.classList.add('selected');
+            card.parentElement.querySelectorAll('.option-card').forEach(c => {
+                c.classList.remove('selected');
+                c.setAttribute('aria-checked', 'false');
+            });
+            card.classList.add('selected');
+            card.setAttribute('aria-checked', 'true');
+            card.closest('.step-content').classList.remove('error');
+        };
+
+        card.addEventListener('click', selectOption);
+        card.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                selectOption();
+            }
         });
     });
-
+ 
     function handleBookingSubmit() {
-        const tier = document.querySelector('.step-content[data-step="1"] .option-card.selected')?.dataset.value || 'Not selected';
-        const focus = document.querySelector('.step-content[data-step="2"] .option-card.selected')?.dataset.value || 'Not selected';
-        const date = document.getElementById('bookingDate').value;
-        const time = document.getElementById('bookingTime').value;
-        const name = document.getElementById('userName').value;
-        const address = document.getElementById('userAddress').value;
-
-        const message = `Hello Stay Well! I'd like to book an ${tier} session:
-- Tier: ${tier}
-- Focus: ${focus}
-- Date/Time: ${date} at ${time}
-- Name: ${name}
-- Address: ${address}
+        trackEvent('booking_conversion', {
+            tier: bookingData.tier,
+            focus: bookingData.focus
+        });
+        const message = `Hello Stay Well! I'd like to book a session:
+- Tier: ${bookingData.tier}
+- Focus: ${bookingData.focus}
+- Date/Time: ${bookingData.date} at ${bookingData.time}
+- Name: ${bookingData.name}
+- Address: ${bookingData.address}
 - Source: Website Booking Engine`;
 
         const encodedMessage = encodeURIComponent(message);
         window.location.href = `https://wa.me/639469983624?text=${encodedMessage}`;
     }
 
+    // 8. Contact Button Tracking
+    document.querySelectorAll('.float-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const type = this.classList.contains('call') ? 'call' : 
+                         this.classList.contains('whatsapp') ? 'whatsapp' : 
+                         this.classList.contains('sms') ? 'sms' : 'unknown';
+            trackEvent('contact_click', { type: type });
+        });
+    });
+
 });
+

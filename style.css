@@ -12,6 +12,7 @@
     --color-stone-dark: #e8e4d9;
     --color-sage: #8a9a5b;
     --color-gold: #b8860b;
+    --color-gold-text: #9a6e00; /* Darker gold for accessible contrast on light backgrounds */
     --color-white: #ffffff;
     --color-text: #2c2c2c;
     --color-text-muted: #666666;
@@ -147,6 +148,7 @@ img {
 
 /* Typography Utilities */
 .text-gold { color: var(--color-gold); }
+.text-gold-alt { color: var(--color-gold-text); }
 .text-sage { color: var(--color-sage); }
 .italic { font-style: italic; }
 .tracking-widest { letter-spacing: 0.2em; }
@@ -292,7 +294,7 @@ img {
         justify-content: center;
         align-items: center;
         transition: right 0.5s cubic-bezier(0.77, 0, 0.175, 1);
-        z-index: 999;
+        z-index: 1005; /* Above everything */
         gap: var(--space-lg);
     }
 
@@ -606,6 +608,71 @@ img {
     width: 100%;
     border-radius: 2px;
     filter: sepia(0.2) contrast(1.1);
+}
+
+/* Therapist Collective Grid */
+.therapist-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-md);
+    margin-top: var(--space-lg);
+}
+
+.therapist-card-premium {
+    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
+    background: var(--color-navy);
+    border: 1px solid rgba(184, 134, 11, 0.1);
+    transition: var(--transition-med);
+}
+
+.therapist-card-premium:hover {
+    transform: translateY(-10px);
+    border-color: var(--color-gold);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+}
+
+.therapist-image {
+    position: relative;
+    aspect-ratio: 4/5;
+    overflow: hidden;
+}
+
+.therapist-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s cubic-bezier(0.2, 0, 0.2, 1);
+}
+
+.therapist-card-premium:hover .therapist-image img {
+    transform: scale(1.05);
+}
+
+.therapist-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 2rem 1.5rem 1rem;
+    background: linear-gradient(to top, rgba(10, 17, 40, 0.95) 0%, rgba(10, 17, 40, 0.4) 50%, transparent 100%);
+    color: var(--color-white);
+    text-align: center;
+}
+
+.therapist-info h3 {
+    color: var(--color-white);
+    font-size: 1.5rem;
+    margin-bottom: 0.2rem;
+}
+
+.therapist-info .role {
+    color: var(--color-gold);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
 }
 
 .spotlight-content {
@@ -1071,6 +1138,12 @@ img {
     border: 1px solid var(--color-gold);
 }
 
+.float-btn.sms {
+    background: #007aff; /* Standard iOS Blue for SMS/Messages */
+    color: white;
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
 .float-btn::after {
     content: attr(data-label);
     position: absolute;
@@ -1101,3 +1174,55 @@ img {
         bottom: 30px;
     }
 }
+
+/* Booking Summary & Validation */
+.summary-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    color: var(--color-charcoal);
+    text-align: left;
+    font-family: var(--font-heading);
+}
+
+.summary-item {
+    margin: 0;
+    border-bottom: 1px solid rgba(184, 134, 11, 0.1);
+    padding-bottom: 8px;
+}
+
+.summary-label {
+    color: var(--color-gold);
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+}
+
+.error-message {
+    color: #ff4444;
+    font-size: 0.75rem;
+    margin-top: 4px;
+    display: none;
+}
+
+.form-group.error .form-control {
+    border-color: #ff4444;
+}
+
+.form-group.error .error-message {
+    display: block;
+}
+
+.option-group-error {
+    color: #ff4444;
+    font-size: 0.75rem;
+    margin-top: -10px;
+    margin-bottom: 20px;
+    display: none;
+}
+
+.step-content.error .option-group-error {
+    display: block;
+}
+
