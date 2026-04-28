@@ -8,8 +8,11 @@ def minify_css(content):
     return content.strip()
 
 def minify_js(content):
-    content = re.sub(r'//.*?\n', '\n', content)
+    # Remove multi-line comments
     content = re.sub(r'/\*.*?\*/', '', content, flags=re.DOTALL)
+    # Disable single-line comment removal as it corrupts URLs and JS logic
+    # content = re.sub(r'\s\/\/.*', '', content)
+    # Remove excessive whitespace
     content = re.sub(r'\s+', ' ', content)
     return content.strip()
 
