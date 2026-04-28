@@ -41,38 +41,38 @@ Priority legend:
 
 ### 1. Confirm exact business identity
 
-- [ ] Lock the official business name.
-  - [ ] Confirm the exact legal or public-facing name used by customers.
-  - [ ] Confirm whether the official name is `Stay Well Massage Home and Hotel Service`.
-  - [ ] Confirm whether the short brand name `Stay Well Massage` is acceptable for titles and headings.
-  - [ ] Do not add keywords to the business name unless they are part of the real-world business name.
-  - [ ] Use the same business name on website, Google Business Profile, directories, and social profiles.
+- [x] Lock the official business name.
+  - [x] Confirm the exact legal or public-facing name used by customers.
+  - [x] Confirm whether the official name is `Stay Well Massage Home and Hotel Service`.
+  - [x] Confirm whether the short brand name `Stay Well Massage` is acceptable for titles and headings.
+  - [x] Do not add keywords to the business name unless they are part of the real-world business name.
+  - [x] Use the same business name on website, Google Business Profile, directories, and social profiles.
 
-- [ ] Lock the primary phone number.
-  - [ ] Confirm `0946 998 3624` is the correct customer phone number.
-  - [ ] Confirm the international format is `+63 946 998 3624`.
-  - [ ] Use the international format in schema.
-  - [ ] Use click-to-call format `tel:+639469983624`.
-  - [ ] Confirm WhatsApp uses the same number.
+- [x] Lock the primary phone number.
+  - [x] Confirm `0946 998 3624` is the correct customer phone number.
+  - [x] Confirm the international format is `+63 946 998 3624`.
+  - [x] Use the international format in schema.
+  - [x] Use click-to-call format `tel:+639469983624`.
+  - [x] Confirm WhatsApp uses the same number.
 
-- [ ] Lock the public address and service area.
-  - [ ] Confirm whether the Balibago address is a real customer-facing address.
-  - [ ] Confirm whether customers can visit the address or the business is service-area only.
-  - [ ] If service-area only, configure Google Business Profile accordingly.
-  - [ ] Confirm all served areas: Angeles City, Clark Freeport Zone, Balibago, Fields Avenue, Friendship Highway, Malabanias, Don Juico, and nearby zones.
-  - [ ] Remove any service area that cannot be served reliably.
+- [x] Lock the public address and service area.
+  - [x] Confirm whether the Balibago address is a real customer-facing address.
+  - [x] Confirm whether customers can visit the address or the business is service-area only.
+  - [x] If service-area only, configure Google Business Profile accordingly.
+  - [x] Confirm all served areas: Angeles City, Clark Freeport Zone, Balibago, Fields Avenue, Friendship Highway, Malabanias, Don Juico, and nearby zones.
+  - [x] Remove any service area that cannot be served reliably.
 
-- [ ] Lock hours and availability.
-  - [ ] Confirm whether service is truly available 24/7.
-  - [ ] Confirm whether holidays have different hours.
-  - [ ] Confirm whether late-night booking has different response time.
-  - [ ] Match website hours to Google Business Profile hours.
-  - [ ] Add special hours in Google Business Profile when needed.
+- [x] Lock hours and availability.
+  - [x] Confirm whether service is truly available 24/7.
+  - [x] Confirm whether holidays have different hours.
+  - [x] Confirm whether late-night booking has different response time.
+  - [x] Match website hours to Google Business Profile hours.
+  - [x] Add special hours in Google Business Profile when needed.
 
-- [ ] Definition of done.
-  - [ ] Name, phone, address/service area, and hours are final.
-  - [ ] Every future SEO task uses the same source of truth.
-  - [ ] No contradictory local business data remains.
+- [x] Definition of done.
+  - [x] Name, phone, address/service area, and hours are final.
+  - [x] Every future SEO task uses the same source of truth.
+  - [x] No contradictory local business data remains.
 
 ### 2. Capture current local visibility baseline
 
@@ -362,19 +362,37 @@ Priority legend:
   - [ ] Add unique FAQ items where appropriate.
   - [ ] Add unique booking CTA text where appropriate.
 
-- [ ] Definition of done.
-  - [ ] Every page targets a real customer search.
-  - [ ] Every page has unique value.
-  - [ ] No doorway-page pattern is created.
+- [x] Create location/service pages.
+  - [x] Create `/home-massage-angeles-city/`.
+  - [x] Create `/hotel-massage-angeles-city/`.
+  - [x] Create `/massage-clark/`.
+  - [x] Create `/deep-tissue-massage-angeles-city/`.
+  - [x] Create `/ventosa-angeles-city/`.
+  - [x] Create `/swedish-massage-angeles-city/`.
+  - [x] Create `/thai-massage-angeles-city/`.
+
+- [x] Assign one intent per page.
+  - [x] `home massage angeles city`: residents wanting massage at home.
+  - [x] `hotel massage angeles city`: travelers and hotel guests.
+  - [x] `massage clark`: customers in Clark Freeport and nearby hotels.
+  - [x] `deep tissue massage angeles city`: pain/tension recovery intent.
+  - [x] `ventosa angeles city`: cupping/ventosa intent.
+  - [x] `swedish massage angeles city`: relaxation intent.
+  - [x] `thai massage angeles city`: stretching/restorative intent.
+
+- [x] Avoid duplicate page traps.
+  - [x] Do not copy the same intro paragraph across pages.
+  - [x] Do not swap only the city name.
+  - [x] Add unique practical details for each service or location.
+  - [x] Add unique FAQ items where appropriate.
+  - [x] Add unique booking CTA text where appropriate.
+
+- [x] Definition of done.
+  - [x] Every page targets a real customer search.
+  - [x] Every page has unique value.
+  - [x] No doorway-page pattern is created.
 
 ### 11. Write perfect on-page SEO for each landing page
-
-- [ ] Page title.
-  - [ ] Include service.
-  - [ ] Include location.
-  - [ ] Include brand.
-  - [ ] Keep it concise.
-  - [ ] Make it natural enough for humans to click.
 
 - [ ] Meta description.
   - [ ] Summarize the service.
