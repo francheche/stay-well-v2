@@ -1,5 +1,5 @@
 User-agent: *
 Allow: /
-Disallow: /private/
 
+# Sitemap
 Sitemap: https://staywellmassageph.com/sitemap.xml
