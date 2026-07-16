@@ -17,6 +17,11 @@
     RewriteRule ^(?:README\.md|vercel\.json|\.vercelignore)$ - [F,L,NC]
     RewriteRule \.(?:md|csv)$ - [F,L,NC]
 
+    # Add the canonical trailing slash before mapping public/ directories.
+    RewriteCond %{REQUEST_URI} !/$
+    RewriteCond %{DOCUMENT_ROOT}/public%{REQUEST_URI} -d
+    RewriteRule ^(.+)$ /$1/ [R=301,L,NE]
+
     # Hostinger serves the repository root; internally map public/ to the
     # existing canonical URLs without adding /public/ to browser addresses.
     RewriteRule ^public(?:/|$) - [L]
