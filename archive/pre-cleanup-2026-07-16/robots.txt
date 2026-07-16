@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+
+Disallow: /_archived/
+Disallow: /archive/
+Disallow: /docs/
+Disallow: /new%20add%20therapist/
+Disallow: /google%20trends/
+Disallow: /subpage-template.html
+
+# Sitemap
+Sitemap: https://staywellmassageph.com/sitemap.xml

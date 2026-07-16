@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+Disallow: /_archived/
+Disallow: /archive/
+Disallow: /project/
+
+# Sitemap
+Sitemap: https://staywellmassageph.com/sitemap.xml
