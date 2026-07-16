@@ -6,6 +6,17 @@ const repositoryRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..', '.
 const root = join(repositoryRoot, 'public');
 const errors = [];
 const warnings = [];
+const businessId = 'https://staywellmassageph.com/#business';
+const businessUrl = 'https://staywellmassageph.com/';
+const serviceLandingPages = new Set([
+    '/home-massage-angeles-city/',
+    '/hotel-massage-angeles-city/',
+    '/massage-clark/',
+    '/deep-tissue-massage-angeles-city/',
+    '/ventosa-angeles-city/',
+    '/swedish-massage-angeles-city/',
+    '/thai-massage-angeles-city/'
+]);
 
 function error(file, message) {
     errors.push(`${file}: ${message}`);
@@ -62,6 +73,23 @@ function localTarget(pagePath, reference) {
     return target;
 }
 
+function collectStructuredNodes(value, nodes = []) {
+    if (Array.isArray(value)) {
+        value.forEach(item => collectStructuredNodes(item, nodes));
+        return nodes;
+    }
+    if (!value || typeof value !== 'object') return nodes;
+
+    nodes.push(value);
+    Object.values(value).forEach(item => collectStructuredNodes(item, nodes));
+    return nodes;
+}
+
+function hasType(node, expectedType) {
+    const types = Array.isArray(node['@type']) ? node['@type'] : [node['@type']];
+    return types.includes(expectedType);
+}
+
 const sitemapPath = join(root, 'sitemap.xml');
 const sitemap = readFileSync(sitemapPath, 'utf8');
 const urls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(match => match[1].trim());
@@ -82,6 +110,7 @@ for (const url of urls) {
     const h1Count = (html.match(/<h1\b/gi) || []).length;
     const description = html.match(/<meta\s+name="description"\s+content="([^"]+)"/i)?.[1];
     const canonical = html.match(/<link\s+rel="canonical"\s+href="([^"]+)"/i)?.[1];
+    const structuredNodes = [];
 
     if (titleCount !== 1) error(relative, `expected one title, found ${titleCount}`);
     if (h1Count !== 1) error(relative, `expected one H1, found ${h1Count}`);
@@ -106,10 +135,31 @@ for (const url of urls) {
 
     for (const match of html.matchAll(/<script\s+type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/gi)) {
         try {
-            JSON.parse(match[1]);
+            collectStructuredNodes(JSON.parse(match[1]), structuredNodes);
         } catch (parseError) {
             error(relative, `invalid JSON-LD: ${parseError.message}`);
         }
+    }
+
+    for (const node of structuredNodes) {
+        if (hasType(node, 'MassageTherapist') && node['@id'] && node['@id'] !== businessId) {
+            error(relative, `MassageTherapist must use the shared business ID ${businessId}`);
+        }
+        if (node['@id'] === businessId && node.url && normalizeUrl(node.url) !== businessUrl) {
+            error(relative, `business entity URL must be ${businessUrl}`);
+        }
+    }
+
+    const pathname = new URL(url).pathname;
+    if (serviceLandingPages.has(pathname)) {
+        const hasMatchingService = structuredNodes.some(node =>
+            hasType(node, 'Service') && node.url && normalizeUrl(node.url) === normalizeUrl(url)
+        );
+        if (!hasMatchingService) error(relative, 'missing page-specific Service structured data');
+    }
+
+    if (pathname === '/' && !structuredNodes.some(node => hasType(node, 'WebSite'))) {
+        error(relative, 'missing WebSite structured data for the preferred site name');
     }
 
     for (const match of html.matchAll(/\b(?:src|href)="([^"]+)"/gi)) {
