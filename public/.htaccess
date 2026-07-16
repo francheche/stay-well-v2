@@ -1,5 +1,14 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
+
+    # Remove an accidentally exposed /public/ prefix in one canonical hop.
+    # THE_REQUEST prevents this from firing on the internal root mapping.
+    RewriteCond %{THE_REQUEST} "\s/+public(?:[/\s?])" [NC]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^(.+?)/?$ /$1/ [R=301,L,NE]
+
+    RewriteCond %{THE_REQUEST} "\s/+public(?:[/\s?])" [NC]
+    RewriteRule ^(.*)$ /$1 [R=301,L,NE]
     
     # Redirect www to non-www
     RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
