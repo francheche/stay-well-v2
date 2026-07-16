@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1080, initial-scale=1">
+  <title>Stay Well Massage Local SEO Infographic</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
+    <link rel="apple-touch-icon" href="/icon-192.png">
+  <style>
+    :root {
+      --navy: #0a1128;
+      --charcoal: #1a1a1a;
+      --stone: #f4f1ea;
+      --stone-dark: #e8e4d9;
+      --sage: #8a9a5b;
+      --gold: #b8860b;
+      --gold-dark: #8a6408;
+      --white: #ffffff;
+      --ink: #2c2c2c;
+      --muted: #62605b;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 1080px;
+      min-height: 3100px;
+      margin: 0;
+      background: var(--stone);
+      color: var(--ink);
+      font-family: "Segoe UI", Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+    }
+
+    .poster {
+      position: relative;
+      width: 1080px;
+      min-height: 3100px;
+      overflow: hidden;
+      background:
+        linear-gradient(180deg, rgba(10, 17, 40, 0.98) 0, rgba(10, 17, 40, 0.98) 515px, transparent 515px),
+        linear-gradient(180deg, var(--stone) 0%, #fffdf7 55%, var(--stone-dark) 100%);
+    }
+
+    .poster::before {
+      content: "";
+      position: absolute;
+      inset: 34px;
+      border: 2px solid rgba(184, 134, 11, 0.28);
+      pointer-events: none;
+    }
+
+    .top-rule,
+    .bottom-rule {
+      position: absolute;
+      left: 80px;
+      right: 80px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+
+    .top-rule {
+      top: 70px;
+    }
+
+    .bottom-rule {
+      bottom: 72px;
+    }
+
+    header {
+      position: relative;
+      padding: 96px 84px 52px;
+      color: var(--white);
+    }
+
+    .brand-line {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 28px;
+      margin-bottom: 34px;
+    }
+
+    .brand-mark {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .seal {
+      width: 74px;
+      height: 74px;
+      border: 2px solid var(--gold);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: var(--gold);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 28px;
+      letter-spacing: 0;
+    }
+
+    .brand-name {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 38px;
+      line-height: 1.05;
+      letter-spacing: 0;
+    }
+
+    .badge {
+      border: 1px solid rgba(184, 134, 11, 0.65);
+      color: var(--gold);
+      padding: 12px 18px;
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 850px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 74px;
+      line-height: 0.98;
+      font-weight: 400;
+      letter-spacing: 0;
+      color: var(--white);
+    }
+
+    .subtitle {
+      max-width: 850px;
+      margin: 24px 0 0;
+      font-size: 25px;
+      line-height: 1.45;
+      color: rgba(255, 255, 255, 0.78);
+    }
+
+    .content {
+      position: relative;
+      padding: 0 72px 96px;
+    }
+
+    .section {
+      margin-top: 38px;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .number {
+      width: 46px;
+      height: 46px;
+      display: grid;
+      place-items: center;
+      background: var(--gold);
+      color: var(--white);
+      font-weight: 800;
+      font-size: 22px;
+    }
+
+    h2 {
+      margin: 0;
+      color: var(--charcoal);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 38px;
+      font-weight: 400;
+      letter-spacing: 0;
+    }
+
+    .deck {
+      margin: 4px 0 0 62px;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.45;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.94);
+      border: 1px solid rgba(26, 26, 26, 0.08);
+      border-left: 8px solid var(--gold);
+      box-shadow: 0 18px 42px rgba(26, 26, 26, 0.06);
+      padding: 28px 32px;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 150px 1fr;
+      gap: 16px 22px;
+      font-size: 24px;
+      line-height: 1.35;
+    }
+
+    .label {
+      color: var(--gold-dark);
+      font-weight: 800;
+      text-transform: uppercase;
+      font-size: 18px;
+      letter-spacing: 0.08em;
+      padding-top: 5px;
+    }
+
+    .value {
+      font-weight: 650;
+      color: var(--charcoal);
+    }
+
+    .check-note {
+      margin-top: 22px;
+      padding-top: 20px;
+      border-top: 1px solid var(--stone-dark);
+      color: var(--muted);
+      font-size: 20px;
+      line-height: 1.45;
+    }
+
+    .description-card {
+      padding: 30px 34px;
+      background: var(--navy);
+      color: rgba(255, 255, 255, 0.86);
+      border: 1px solid rgba(184, 134, 11, 0.3);
+      box-shadow: 0 22px 54px rgba(10, 17, 40, 0.2);
+    }
+
+    .description-card p {
+      margin: 0 0 18px;
+      font-size: 20px;
+      line-height: 1.52;
+    }
+
+    .description-card p:last-child {
+      margin-bottom: 0;
+    }
+
+    .highlight {
+      color: #f5d58a;
+      font-weight: 800;
+    }
+
+    .review-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+    }
+
+    .review-card {
+      min-height: 314px;
+      padding: 24px 26px;
+      background: var(--white);
+      border: 1px solid rgba(26, 26, 26, 0.08);
+      border-top: 8px solid var(--sage);
+      box-shadow: 0 16px 34px rgba(26, 26, 26, 0.05);
+    }
+
+    .review-title {
+      margin: 0 0 12px;
+      color: var(--charcoal);
+      font-size: 21px;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    .quote {
+      margin: 0;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.48;
+    }
+
+    .quote strong {
+      color: var(--gold-dark);
+    }
+
+    .tips {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .tip {
+      min-height: 220px;
+      padding: 24px;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(26, 26, 26, 0.08);
+    }
+
+    .tip-kicker {
+      margin-bottom: 12px;
+      color: var(--gold-dark);
+      font-size: 16px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .tip p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.42;
+    }
+
+    .keyword-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .keyword {
+      background: rgba(184, 134, 11, 0.12);
+      border: 1px solid rgba(184, 134, 11, 0.32);
+      color: var(--gold-dark);
+      padding: 10px 14px;
+      font-size: 17px;
+      font-weight: 800;
+    }
+
+    footer {
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin: 54px 74px 112px;
+      color: var(--charcoal);
+      font-size: 18px;
+    }
+
+    .footer-brand {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 28px;
+      color: var(--charcoal);
+    }
+
+    .footer-meta {
+      max-width: 500px;
+      text-align: right;
+      color: var(--muted);
+      line-height: 1.35;
+    }
+
+    @page {
+      size: 1080px 3100px;
+      margin: 0;
+    }
+
+    @media print {
+      html,
+      body,
+      .poster {
+        width: 1080px;
+        min-height: 3100px;
+      }
+
+      body {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="poster" aria-label="Stay Well Massage local SEO and review response infographic">
+    <div class="top-rule"></div>
+    <header>
+      <div class="brand-line">
+        <div class="brand-mark">
+          <div class="seal">SW</div>
+          <div class="brand-name">Stay Well<br>Massage</div>
+        </div>
+        <div class="badge">Local SEO Kit</div>
+      </div>
+      <h1>Profile Accuracy & Review Response Guide</h1>
+      <p class="subtitle">Use this as a quick operational checklist for Facebook About details, Google Business Profile copy, and SEO-friendly review replies.</p>
+    </header>
+
+    <section class="content">
+      <div class="section">
+        <div class="section-title">
+          <div class="number">1</div>
+          <h2>Facebook Page About Section</h2>
+        </div>
+        <p class="deck">Verify these fields match exactly.</p>
+        <div class="card">
+          <div class="about-grid">
+            <div class="label">Name</div>
+            <div class="value">Stay Well Massage Home and Hotel Service</div>
+            <div class="label">Address</div>
+            <div class="value">St. Maria Village, Teodoro St. cor Ti&ntilde;io St, 1st St, Balibago, Angeles City, 2009 Pampanga</div>
+            <div class="label">Phone</div>
+            <div class="value">0946 998 3624</div>
+          </div>
+          <div class="check-note">Exact NAP consistency helps customers trust the page and helps search platforms connect your Facebook, Google, and website signals.</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">
+          <div class="number">2</div>
+          <h2>Google Business Profile Description</h2>
+        </div>
+        <p class="deck">Copy and paste into the Description field.</p>
+        <div class="description-card">
+          <p>Stay Well Massage is Angeles City's premier <span class="highlight">24/7 mobile home and hotel massage service</span>. We deliver an elite sanctuary of wellness directly to your doorstep, providing a high-end spa experience in the comfort of your own room or residence. Our team of DOH-licensed professional therapists specializes in restorative treatments including Deep Tissue Recovery, Traditional Ventosa (Cupping), Swedish Relaxation, and Thai Restorative Massage.</p>
+          <p>We proudly serve all major hotels and luxury residences in Angeles City and the Clark Freeport Zone, with an average arrival time of <span class="highlight">30 to 45 minutes</span>. Committed to the highest ethical standards, we maintain a strict 100% professional, therapeutic-only policy (No Extra Service). Whether you are a business traveler recovering from jet lag or a local resident seeking a quiet luxury reset, Stay Well Massage is your trusted partner for restorative care. "To God be all the Glory."</p>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">
+          <div class="number">3</div>
+          <h2>SEO-Optimized Review Replies</h2>
+        </div>
+        <p class="deck">Rotate these templates so replies feel natural while still reinforcing service and location relevance.</p>
+        <div class="review-grid">
+          <div class="review-card">
+            <h3 class="review-title">5-Star Review: General</h3>
+            <p class="quote">"Thank you so much for the kind words! We are thrilled that you enjoyed your session. As the leading <strong>home massage service in Angeles City</strong>, our goal is always to provide a quiet luxury sanctuary for our guests. We look forward to serving you again soon! &mdash; Ms. Berna &amp; the Stay Well Team"</p>
+          </div>
+          <div class="review-card">
+            <h3 class="review-title">5-Star Review: Traveler / Hotel</h3>
+            <p class="quote">"We are so glad we could help you recover from your travels! Our <strong>hotel massage service in Clark</strong> is specifically designed to help guests beat jet lag and find peace after a long journey. Thank you for choosing Stay Well Massage. Safe travels!"</p>
+          </div>
+          <div class="review-card">
+            <h3 class="review-title">Specific Service Mention</h3>
+            <p class="quote">"Thank you for the wonderful feedback! Our <strong>Deep Tissue and Ventosa</strong> combination is a favorite for those looking for deep muscle recovery in <strong>Angeles City</strong>. We're happy to hear it hit the spot. See you next time!"</p>
+          </div>
+          <div class="review-card">
+            <h3 class="review-title">Professionalism / Integrity</h3>
+            <p class="quote">"We appreciate your feedback regarding our professional standards. We take our <strong>DOH-licensed</strong> status and our <strong>Strict No Extra Service policy</strong> very seriously to ensure every guest feels safe and respected. Thank you for trusting Stay Well Massage."</p>
+          </div>
+        </div>
+        <div class="keyword-strip" aria-label="SEO keyword reminders">
+          <div class="keyword">home massage service in Angeles City</div>
+          <div class="keyword">hotel massage service in Clark</div>
+          <div class="keyword">Deep Tissue and Ventosa</div>
+          <div class="keyword">DOH-licensed</div>
+          <div class="keyword">No Extra Service</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">
+          <div class="number">4</div>
+          <h2>Review Request Pro Tips</h2>
+        </div>
+        <div class="tips">
+          <div class="tip">
+            <div class="tip-kicker">Timing</div>
+            <p>Ask 15 minutes after the session ends, while the guest is still feeling the spa glow.</p>
+          </div>
+          <div class="tip">
+            <div class="tip-kicker">Direct Link</div>
+            <p>Send the Review Link from your Google Business Profile dashboard via WhatsApp or SMS.</p>
+          </div>
+          <div class="tip">
+            <div class="tip-kicker">Helpful Prompt</div>
+            <p>If asked what to write, suggest mentioning the Angeles or Clark neighborhood served.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-brand">Stay Well Massage Home and Hotel Service</div>
+      <div class="footer-meta">Angeles City &amp; Clark Freeport Zone<br>24/7 professional home and hotel massage</div>
+    </footer>
+    <div class="bottom-rule"></div>
+  </main>
+</body>
+</html>
+
+
