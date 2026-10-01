@@ -377,7 +377,7 @@ document.addEventListener('DOMContentLoaded', () => {
 - Source: Website Booking Engine`;
 
         const encodedMessage = encodeURIComponent(message);
-        window.location.href = `https://wa.me/639469983624?text=${encodedMessage}`;
+        window.location.href = `/booking-confirmed/?text=${encodedMessage}`;
     }
 
     // 8. Contact Button Tracking
