@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Booking Confirmed — Stay Well Massage</title>
   <meta name="robots" content="noindex, nofollow">
-  <meta http-equiv="refresh" content="2; url=https://wa.me/639469983624?text=Hi%20Stay%20Well%20Massage!%20I%20would%20like%20to%20book%20an%20appointment.">
 
   <!-- Google Tag Manager -->
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -85,20 +84,17 @@
       var targetUrl = defaultUrl;
       try {
         var params = new URLSearchParams(window.location.search);
-        var metaRefresh = document.querySelector('meta[http-equiv="refresh"]');
-        var isDebug = params.has('gtm_debug') || params.has('gtm_auth');
+        var isDebug = params.has('gtm_debug') || params.has('gtm_auth') || document.referrer.includes('tagassistant.google.com') || window.location.href.includes('gtm_debug');
 
         if (isDebug) {
-          if (metaRefresh) metaRefresh.remove();
           var p = document.querySelector('p');
-          if (p) p.textContent = 'Tag Assistant debug session detected. Automatic redirect paused for verification.';
+          if (p) p.textContent = 'Tag Assistant debug session active. Automatic redirect paused for verification.';
           return;
         }
 
         var text = params.get('text');
         if (text) {
           targetUrl = "https://wa.me/639469983624?text=" + encodeURIComponent(text);
-          if (metaRefresh) metaRefresh.setAttribute('content', '2; url=' + targetUrl);
           var cta = document.querySelector('a.cta');
           if (cta) cta.href = targetUrl;
         }
