@@ -27,6 +27,24 @@
     gtag('config', 'AW-18485234681');
   </script>
 
+  <!-- Event snippet for Outbound click conversion page -->
+  <script>
+  function gtag_report_conversion(url) {
+    var callback = function () {
+      if (typeof(url) != 'undefined') {
+        window.location = url;
+      }
+    };
+    gtag('event', 'conversion', {
+        'send_to': 'AW-18485234681/2ZG8COaCjY0dEPmXue5E',
+        'value': 1.0,
+        'currency': 'PHP',
+        'event_callback': callback
+    });
+    return false;
+  }
+  </script>
+
   <style>
     body { margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center;
       font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
@@ -50,7 +68,7 @@
     <div class="check">✅</div>
     <h1>Booking Confirmed</h1>
     <p>Opening WhatsApp to confirm your appointment…</p>
-    <a class="cta" href="https://wa.me/639469983624?text=Hi%20Stay%20Well%20Massage!%20I%20would%20like%20to%20book%20an%20appointment.">Tap here if WhatsApp doesn't open</a>
+    <a class="cta" onclick="return gtag_report_conversion(this.href);" href="https://wa.me/639469983624?text=Hi%20Stay%20Well%20Massage!%20I%20would%20like%20to%20book%20an%20appointment.">Tap here if WhatsApp doesn't open</a>
   </div>
 
   <script>
@@ -78,7 +96,11 @@
         }
       } catch (e) {}
       setTimeout(function () {
-        window.location.href = targetUrl;
+        if (typeof gtag_report_conversion === 'function') {
+          gtag_report_conversion(targetUrl);
+        } else {
+          window.location.href = targetUrl;
+        }
       }, 2000);
     })();
   </script>

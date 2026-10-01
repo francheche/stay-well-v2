@@ -22,6 +22,24 @@
       gtag('config', 'GT-NSSMKLV9');
       gtag('config', 'AW-18485234681');
     </script>
+
+    <!-- Event snippet for Outbound click conversion page -->
+    <script>
+    function gtag_report_conversion(url) {
+      var callback = function () {
+        if (typeof(url) != 'undefined') {
+          window.location = url;
+        }
+      };
+      gtag('event', 'conversion', {
+          'send_to': 'AW-18485234681/2ZG8COaCjY0dEPmXue5E',
+          'value': 1.0,
+          'currency': 'PHP',
+          'event_callback': callback
+      });
+      return false;
+    }
+    </script>
     <title>Privacy Notice | Stay Well Massage</title>
     <meta name="description" content="How Stay Well Massage uses booking details submitted through its website and WhatsApp booking flow.">
     <link rel="canonical" href="https://staywellmassageph.com/privacy/">

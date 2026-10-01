@@ -377,7 +377,12 @@ document.addEventListener('DOMContentLoaded', () => {
 - Source: Website Booking Engine`;
 
         const encodedMessage = encodeURIComponent(message);
-        window.location.href = `/booking-confirmed/?text=${encodedMessage}`;
+        const destination = `/booking-confirmed/?text=${encodedMessage}`;
+        if (typeof gtag_report_conversion === 'function') {
+            gtag_report_conversion(destination);
+        } else {
+            window.location.href = destination;
+        }
     }
 
     // 8. Contact Button Tracking
@@ -387,6 +392,13 @@ document.addEventListener('DOMContentLoaded', () => {
                          this.classList.contains('whatsapp') ? 'whatsapp' : 
                          this.classList.contains('sms') ? 'sms' : 'unknown';
             trackEvent('contact_click', { type: type });
+            if (type === 'whatsapp' && typeof gtag === 'function') {
+                gtag('event', 'conversion', {
+                    'send_to': 'AW-18485234681/2ZG8COaCjY0dEPmXue5E',
+                    'value': 1.0,
+                    'currency': 'PHP'
+                });
+            }
         });
     });
 
