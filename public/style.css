@@ -92,6 +92,10 @@ img {
     padding: var(--space-xl) 0;
 }
 
+section[id] {
+    scroll-margin-top: 90px;
+}
+
 .intent-answer {
     position: relative;
     overflow: hidden;

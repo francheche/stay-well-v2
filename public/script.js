@@ -390,4 +390,18 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // 9. Deep-link Parameter Navigation (e.g. ?view=services, ?view=reviews, ?view=areas)
+    try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const view = urlParams.get('view');
+        if (view) {
+            const targetSection = document.getElementById(view);
+            if (targetSection) {
+                setTimeout(() => {
+                    targetSection.scrollIntoView({ behavior: 'smooth' });
+                }, 150);
+            }
+        }
+    } catch (e) {}
+
 });
