@@ -57,9 +57,20 @@
       var targetUrl = defaultUrl;
       try {
         var params = new URLSearchParams(window.location.search);
+        var metaRefresh = document.querySelector('meta[http-equiv="refresh"]');
+        var isDebug = params.has('gtm_debug') || params.has('gtm_auth');
+
+        if (isDebug) {
+          if (metaRefresh) metaRefresh.remove();
+          var p = document.querySelector('p');
+          if (p) p.textContent = 'Tag Assistant debug session detected. Automatic redirect paused for verification.';
+          return;
+        }
+
         var text = params.get('text');
         if (text) {
           targetUrl = "https://wa.me/639469983624?text=" + encodeURIComponent(text);
+          if (metaRefresh) metaRefresh.setAttribute('content', '2; url=' + targetUrl);
           var cta = document.querySelector('a.cta');
           if (cta) cta.href = targetUrl;
         }
