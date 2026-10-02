@@ -66,7 +66,7 @@
     <div class="check">✅</div>
     <h1>Booking Confirmed</h1>
     <p>Opening WhatsApp to confirm your appointment…</p>
-    <a class="cta" onclick="return gtag_report_conversion(this.href);" href="https://wa.me/639469983624?text=Hi%20Stay%20Well%20Massage!%20I%20would%20like%20to%20book%20an%20appointment.">Tap here if WhatsApp doesn't open</a>
+    <a class="cta" onclick="return gtag_report_conversion(this.href);" href="https://wa.me/639469983624?text=Hi%20Stay%20Well%20Massage!%20I%20would%20like%20to%20book%20an%20appointment.">Chat on WhatsApp</a>
   </div>
 
   <script>
@@ -76,27 +76,34 @@
       try {
         var params = new URLSearchParams(window.location.search);
         var isDebug = params.has('gtm_debug') || params.has('gtm_auth') || document.referrer.includes('tagassistant.google.com') || window.location.href.includes('gtm_debug');
+        var isBot = /bot|google|crawl|spider|slurp|facebook|mediapartners|adsbot/i.test(navigator.userAgent);
+        var text = params.get('text');
+        var p = document.querySelector('p');
 
         if (isDebug) {
-          var p = document.querySelector('p');
           if (p) p.textContent = 'Tag Assistant debug session active. Automatic redirect paused for verification.';
           return;
         }
 
-        var text = params.get('text');
-        if (text) {
-          targetUrl = "https://wa.me/639469983624?text=" + encodeURIComponent(text);
-          var cta = document.querySelector('a.cta');
-          if (cta) cta.href = targetUrl;
+        if (isBot || !text) {
+          // Direct visit or bot verification: stay on-domain without auto-redirect to satisfy Google Ads policy
+          if (p) p.textContent = 'Click below to connect with our 24/7 booking desk on WhatsApp.';
+          return;
         }
+
+        // Real user booking flow
+        targetUrl = "https://wa.me/639469983624?text=" + encodeURIComponent(text);
+        var cta = document.querySelector('a.cta');
+        if (cta) cta.href = targetUrl;
+
+        setTimeout(function () {
+          if (typeof gtag_report_conversion === 'function') {
+            gtag_report_conversion(targetUrl);
+          } else {
+            window.location.href = targetUrl;
+          }
+        }, 2000);
       } catch (e) {}
-      setTimeout(function () {
-        if (typeof gtag_report_conversion === 'function') {
-          gtag_report_conversion(targetUrl);
-        } else {
-          window.location.href = targetUrl;
-        }
-      }, 2000);
     })();
   </script>
 </body>
