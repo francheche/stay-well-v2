@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Connecting to WhatsApp - Stay Well Massage PH</title>
+  <meta name="robots" content="noindex, nofollow">
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18485234681"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=GT-NSSMKLV9"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'AW-18485234681');
+    gtag('config', 'GT-NSSMKLV9');
+  </script>
+
+  <!-- Conversion tracking -->
+  <script>
+    function gtag_report_conversion(url) {
+      var callback = function () {
+        if (typeof(url) != 'undefined') {
+          window.location = url;
+        }
+      };
+      gtag('event', 'conversion', {
+        'send_to': 'AW-18485234681/2ZG8COaCjY0dEPmXue5E',
+        'value': 1.0,
+        'currency': 'PHP',
+        'event_callback': callback
+      });
+      return false;
+    }
+
+    // Build WhatsApp URL from query parameters and handle conversion redirect
+    window.addEventListener('DOMContentLoaded', function() {
+      var params = new URLSearchParams(window.location.search);
+      var isDebug = params.has('gtm_debug') || params.has('gtm_auth') || document.referrer.includes('tagassistant.google.com') || window.location.href.includes('gtm_debug');
+      var isBot = /bot|google|crawl|spider|slurp|facebook|mediapartners|adsbot/i.test(navigator.userAgent);
+      
+      // Check if pre-formatted text or individual fields were provided
+      var message = params.get('text');
+      if (!message) {
+        var tier = params.get('tier') || 'Elite Sanctuary';
+        var focus = params.get('focus') || 'Deep Tissue';
+        var datetime = params.get('datetime') || '';
+        var name = params.get('name') || '';
+        var address = params.get('address') || '';
+        
+        message = "Hello Stay Well! I'd like to book a session:\n"
+          + "- Tier: " + tier + "\n"
+          + "- Focus: " + focus + "\n"
+          + (datetime ? "- Date/Time: " + datetime + "\n" : "")
+          + (name ? "- Name: " + name + "\n" : "")
+          + (address ? "- Address: " + address + "\n" : "")
+          + "- Source: Website Booking Engine";
+      }
+      
+      var whatsappUrl = "https://api.whatsapp.com/send/?phone=639469983624&text=" 
+        + encodeURIComponent(message) 
+        + "&type=phone_number&app_absent=0";
+      
+      // Update fallback button
+      var fallbackLink = document.getElementById('whatsapp-fallback');
+      if (fallbackLink) {
+        fallbackLink.href = whatsappUrl;
+        fallbackLink.onclick = function() {
+          return gtag_report_conversion(this.href);
+        };
+      }
+
+      // Tag Assistant Verification: Pause auto-redirect so you can inspect hits in debugger
+      if (isDebug) {
+        var p = document.querySelector('p');
+        if (p) p.textContent = 'Tag Assistant debug session active. Automatic redirect paused for verification.';
+        return;
+      }
+
+      // Bot protection: Do NOT auto-redirect if crawled directly without parameters
+      if (isBot || (!params.has('text') && !params.has('tier') && !params.has('name'))) {
+        var p = document.querySelector('p');
+        if (p) p.textContent = 'Click below to connect with our booking desk on WhatsApp.';
+        return;
+      }
+      
+      // Fire conversion and redirect real user after 800ms
+      setTimeout(function() {
+        gtag_report_conversion(whatsappUrl);
+      }, 800);
+    });
+  </script>
+
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+      background: #f9f7f4;
+      color: #2c2c2c;
+    }
+    .card {
+      background: #ffffff;
+      padding: 48px 32px;
+      border-radius: 16px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+      max-width: 440px;
+      width: 100%;
+      border: 1px solid rgba(184, 134, 11, 0.15);
+    }
+    .spinner {
+      font-size: 42px;
+      margin-bottom: 16px;
+      display: inline-block;
+      animation: pulse 1.5s infinite;
+    }
+    h2 {
+      font-size: 24px;
+      margin: 0 0 10px;
+      color: #0a1128;
+      font-weight: 600;
+    }
+    p {
+      font-size: 15px;
+      color: #6b6259;
+      margin: 0 0 28px;
+      line-height: 1.5;
+    }
+    a.btn-whatsapp {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px 28px;
+      background: #25D366;
+      color: #ffffff;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 16px;
+      transition: background 0.2s ease, transform 0.1s ease;
+      box-shadow: 0 4px 14px rgba(37, 211, 102, 0.35);
+    }
+    a.btn-whatsapp:hover {
+      background: #20ba5a;
+      transform: translateY(-1px);
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="spinner">📲</div>
+    <h2>Connecting you to WhatsApp...</h2>
+    <p>Your booking request will be sent to our team.</p>
+    <a id="whatsapp-fallback" class="btn-whatsapp" href="#">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2z"/></svg>
+      Tap here if you're not redirected
+    </a>
+  </div>
+</body>
+</html>

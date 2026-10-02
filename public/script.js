@@ -377,12 +377,9 @@ document.addEventListener('DOMContentLoaded', () => {
 - Source: Website Booking Engine`;
 
         const encodedMessage = encodeURIComponent(message);
-        const destination = `/booking-confirmed/?text=${encodedMessage}`;
-        if (typeof gtag_report_conversion === 'function') {
-            gtag_report_conversion(destination);
-        } else {
-            window.location.href = destination;
-        }
+        const datetimeVal = encodeURIComponent((bookingData.date || '') + (bookingData.time ? ' at ' + bookingData.time : ''));
+        const destination = `/booking-request/?tier=${encodeURIComponent(bookingData.tier || '')}&focus=${encodeURIComponent(bookingData.focus || '')}&datetime=${datetimeVal}&name=${encodeURIComponent(bookingData.name || '')}&address=${encodeURIComponent(bookingData.address || '')}&text=${encodedMessage}`;
+        window.location.href = destination;
     }
 
     // 8. Contact Button Tracking

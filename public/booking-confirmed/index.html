@@ -70,41 +70,7 @@
   </div>
 
   <script>
-    (function () {
-      var defaultUrl = "https://wa.me/639469983624?text=Hi%20Stay%20Well%20Massage!%20I%20would%20like%20to%20book%20an%20appointment.";
-      var targetUrl = defaultUrl;
-      try {
-        var params = new URLSearchParams(window.location.search);
-        var isDebug = params.has('gtm_debug') || params.has('gtm_auth') || document.referrer.includes('tagassistant.google.com') || window.location.href.includes('gtm_debug');
-        var isBot = /bot|google|crawl|spider|slurp|facebook|mediapartners|adsbot/i.test(navigator.userAgent);
-        var text = params.get('text');
-        var p = document.querySelector('p');
-
-        if (isDebug) {
-          if (p) p.textContent = 'Tag Assistant debug session active. Automatic redirect paused for verification.';
-          return;
-        }
-
-        if (isBot || !text) {
-          // Direct visit or bot verification: stay on-domain without auto-redirect to satisfy Google Ads policy
-          if (p) p.textContent = 'Click below to connect with our 24/7 booking desk on WhatsApp.';
-          return;
-        }
-
-        // Real user booking flow
-        targetUrl = "https://wa.me/639469983624?text=" + encodeURIComponent(text);
-        var cta = document.querySelector('a.cta');
-        if (cta) cta.href = targetUrl;
-
-        setTimeout(function () {
-          if (typeof gtag_report_conversion === 'function') {
-            gtag_report_conversion(targetUrl);
-          } else {
-            window.location.href = targetUrl;
-          }
-        }, 2000);
-      } catch (e) {}
-    })();
+    window.location.replace('/booking-request/' + window.location.search);
   </script>
 </body>
 </html>
