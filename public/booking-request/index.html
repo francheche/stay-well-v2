@@ -21,17 +21,29 @@
   <!-- Conversion tracking -->
   <script>
     function gtag_report_conversion(url) {
+      var redirected = false;
       var callback = function () {
-        if (typeof(url) != 'undefined') {
+        if (!redirected && typeof(url) != 'undefined') {
+          redirected = true;
           window.location = url;
         }
       };
-      gtag('event', 'conversion', {
-        'send_to': 'AW-18485234681/2ZG8COaCjY0dEPmXue5E',
-        'value': 1.0,
-        'currency': 'PHP',
-        'event_callback': callback
-      });
+      setTimeout(callback, 800);
+      try {
+        if (typeof gtag === 'function') {
+          gtag('event', 'conversion', {
+            'send_to': 'AW-18485234681/2ZG8COaCjY0dEPmXue5E',
+            'value': 1.0,
+            'currency': 'PHP',
+            'transport_type': 'beacon',
+            'event_callback': callback
+          });
+          return false;
+        }
+      } catch (e) {
+        console.warn('Conversion tracking error:', e);
+      }
+      callback();
       return false;
     }
 
@@ -79,10 +91,11 @@
         return;
       }
 
-      // Bot protection: Do NOT auto-redirect if crawled directly without parameters
-      if (isBot || (!params.has('text') && !params.has('tier') && !params.has('name'))) {
+      // Bot protection: Do NOT auto-redirect if crawled directly without parameters/gclid
+      if (isBot || (!params.has('text') && !params.has('tier') && !params.has('name') && !params.has('gclid'))) {
         var p = document.querySelector('p');
         if (p) p.textContent = 'Click below to connect with our booking desk on WhatsApp.';
+        if (fallbackLink) fallbackLink.textContent = 'Chat on WhatsApp Now';
         return;
       }
       
